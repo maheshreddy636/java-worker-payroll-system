@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+class Worker {
+    String name;
+    double salaryRate;
+
+    public Worker(String name, double salaryRate) {
+        this.name = name;
+        this.salaryRate = salaryRate;
+    }
+
+    public double computePay(int hours) {
+        return 0.0;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class DailyWorker extends Worker {
+    int noOfDays;
+
+    public DailyWorker(String name, double salaryRate, int noOfDays) {
+        super(name, salaryRate);
+        this.noOfDays = noOfDays;
+    }
+
+    public double computePay(int hours) {
+        return salaryRate * noOfDays;
+    }
+}
+
+class SalariedWorker extends Worker {
+    int actualHoursWorked;
+
+    public SalariedWorker(String name, double salaryRate, int actualHoursWorked) {
+        super(name, salaryRate);
+        this.actualHoursWorked = actualHoursWorked;
+    }
+
+    public double computePay(int hours) {
+        return salaryRate * 40; // Weekly pay for 40 hours
+    }
+}
+
+public class WorkersApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n--- Worker Payroll System Menu ---");
+            System.out.println("1. Calculate Pay for Daily Worker");
+            System.out.println("2. Calculate Pay for Salaried Worker");
+            System.out.println("3. Exit");
+
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            Worker worker = null;
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Daily Worker Name: ");
+                    String dailyWorkerName = scanner.nextLine();
+
+                    System.out.print("Enter Daily Worker Salary Rate (per day): ");
+                    double dailyRate = scanner.nextDouble();
+
+                    System.out.print("Enter Number of Days Worked: ");
+                    int daysWorked = scanner.nextInt();
+
+                    worker = new DailyWorker(dailyWorkerName, dailyRate, daysWorked);
+                    System.out.println("Daily Worker: " + worker.getName() +
+                                       ", Weekly Pay: $" + worker.computePay(0));
+                    break;
+
+                case 2:
+                    System.out.print("Enter Salaried Worker Name: ");
+                    String salariedWorkerName = scanner.nextLine();
+
+                    System.out.print("Enter Salaried Worker Salary Rate (per hour): ");
+                    double hourlyRate = scanner.nextDouble();
+
+                    System.out.print("Enter Actual Hours Worked: ");
+                    int actualHours = scanner.nextInt();
+
+                    worker = new SalariedWorker(salariedWorkerName, hourlyRate, actualHours);
+                    System.out.println("Salaried Worker: " + worker.getName() +
+                                       ", Weekly Pay: $" + worker.computePay(actualHours));
+                    break;
+
+                case 3:
+                    System.out.println("Exiting Payroll System. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 3);
+    }
+}
